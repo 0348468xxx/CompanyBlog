@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    IFI Blog
+{% endblock  %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'blog/post.css' %}">    
+    <link rel="stylesheet" href="{% static 'blog/index.css' %}">
+{% endblock  %}
+
+{% block content %}
+    <section id="welcome">
+        <header>
+            <img src="" alt="">
+            <h2>Welcome to IFI Blog</h2>
+        </header>
+      
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Accusamus, aliquam, atque, autem blanditiis consequuntur cumque
+            debitis doloremque dolorum eaque eius enim error esse et eveniet
+            explicabo facere fugiat fugit harum hic id illo impedit in
+            inventore ipsa ipsum itaque iure laboriosam laborum laudantium
+            magnam magni maxime minima minus modi molestias nam natus nemo
+            neque nisi nostrum numquam odit officia omnis optio pariatur
+            perferendis perspiciatis placeat porro possimus praesentium
+            provident quae quam quas quia quibusdam quis quod quos ratione
+            recusandae repellendus reprehenderit repudiandae rerum saepe
+            sapiente sequi similique sint soluta sunt tempora tenetur
+            temporibus, totam ut veritatis voluptas voluptatem voluptatum.
+        </p>
+    </section>
+
+    <section id="latest-posts">
+        <header>
+            <h2>Recent Posts</h2>
+        </header>
+
+        <ul>
+            {% for post in posts  %}
+                {% include 'blog/includes/post.html' %}
+            {% endfor %}
+        </ul>
+    </section>
+
+
+    <section id="about">
+        <h2>About Us</h2>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis quos provident voluptatem repellendus asperiores quam inventore itaque harum deserunt officia minus, aut adipisci saepe labore distinctio aspernatur ducimus totam voluptatum.    
+        </p>
+    </section>
+{% endblock  %}
