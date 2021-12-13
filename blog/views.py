@@ -20,5 +20,6 @@ def posts(request):
 def post_detail(request, slug):  # Use slug for dynamic URL
     defined_post = get_object_or_404(Post, slug=slug)
     return render(request, 'blog/post-detail.html', {
-        "post": defined_post
+        "post": defined_post,
+        "post_tags": defined_post.tags.all()
     })
