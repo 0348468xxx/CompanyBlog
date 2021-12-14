@@ -29,15 +29,26 @@
 
     <main>
         <section id="content">
-            {{ post.content|safe }}
+            {{ post.content|linebreaks }}
         </section>
     </main>
 
+    <section id="comments">
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <p> {{ comment.text|linebreaks }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
     <section id="comment-form">
         <h2>Your Comment</h2>
-        <form>
+        <form action="{% url 'post-detail-page' post.slug %}" method="POST">
+            {% csrf_token %}
             {% for form_field in comment_form %}
-                <div class="form-control">
+                <div class="form-control {% if form_field.errors %}invalid{% endif %}">
                     {{ form_field.label_tag }}
                     {{ form_field }}
                     {{ form_field.errors }}

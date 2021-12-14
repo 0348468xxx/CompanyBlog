@@ -9,3 +9,5 @@ urlpatterns = [
          name='post-detail-page'),  # /posts/my-first-post
     # path('posts/login'),
 ]
+
+
