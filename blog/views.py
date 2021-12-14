@@ -1,6 +1,6 @@
 from django.db.models import query
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, request
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views import View
@@ -67,3 +67,16 @@ class PostDetailView(View):
         context['post_tags'] = self.object.tags.all()
         context['comment_form'] = CommentForm()
         return context
+
+
+class ReadLaterView(View):
+    def post(self, request):
+        stored_posts = request.session.get("stored_posts")
+
+        if stored_posts is None:
+            stored_post =  []
+        
+        post_id = int(request.POST["post_id"])
+
+        if post_id not in stored_posts:
+            stored_post.append()
