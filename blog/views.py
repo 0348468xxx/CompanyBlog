@@ -28,16 +28,24 @@ class AllPostView(ListView):
 
 
 class PostDetailView(View):
-    template_name = 'blog/post-detail.html'
-    model = Post
+    def is_marked_post(self, request, post_id):
+        marked_posts = request.session.get('marked_posts')
+        if marked_posts is not None:
+            is_saved_for_later = post_id in marked_posts
+        else:
+            is_saved_for_later = False
+
+        return is_saved_for_later
 
     def get(self, request, slug):
         post = Post.objects.get(slug=slug)
+
         context = {
-            "post": post, 
+            "post": post,
             "post_tags": post.tags.all(),
             "comment_form": CommentForm(),
-            "comments": post.comments.all().order_by("-id")
+            "comments": post.comments.all().order_by("-id"),
+            "saved_for_later": self.is_marked_post(request, post.id)
         }
         return render(request, "blog/post-detail.html", context)
 
@@ -52,15 +60,14 @@ class PostDetailView(View):
 
             return HttpResponseRedirect(reverse("post-detail-page", args=[slug]))
 
-        
         context = {
-            "post": post, 
+            "post": post,
             "post_tags": post.tags.all(),
             "comment_form": CommentForm(),
-            "comments": post.comments.all().order_by("-id")
+            "comments": post.comments.all().order_by("-id"),
+            "saved_for_later": self.is_marked_post(request, post.id)
         }
         return render(request, "blog/post-detail.html", context)
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,13 +77,33 @@ class PostDetailView(View):
 
 
 class ReadLaterView(View):
-    def post(self, request):
-        stored_posts = request.session.get("stored_posts")
+    def get(self, request):
+        marked_posts = request.session.get("marked_posts")
+        context = {}
 
-        if stored_posts is None:
-            stored_post =  []
-        
+        if marked_posts is None or len(marked_posts) == 0:
+            context["posts"] = []
+            context["has_posts"] = False
+        else:
+            context["posts"] = Post.objects.filter(id__in=marked_posts)
+            context["has_posts"] = True
+
+        return render(request, "blog/marked-posts.html", context)
+
+    def post(self, request):
+        marked_posts = request.session.get("marked_posts")
+
+        if marked_posts is None:
+            marked_posts = []
+
         post_id = int(request.POST["post_id"])
 
-        if post_id not in stored_posts:
-            stored_post.append()
+        if post_id not in marked_posts:
+            marked_posts.append(post_id)
+            request.session["marked_posts"] = marked_posts
+        else:
+            marked_posts.remove(post_id)
+
+        request.session["marked_posts"] = marked_posts
+
+        return HttpResponseRedirect("/")
