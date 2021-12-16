@@ -7,7 +7,7 @@ from django.views import View
 from .models import Post
 from .forms import CommentForm
 
-
+# Impleting functions for Homepage 
 class StartingPageView(ListView):
     template_name = 'blog/index.html'
     model = Post
@@ -19,7 +19,7 @@ class StartingPageView(ListView):
         data = queryset[:3]
         return data
 
-
+# Impleting functions for All Posts Page
 class AllPostView(ListView):
     template_name = 'blog/all-posts.html'
     model = Post
@@ -27,6 +27,7 @@ class AllPostView(ListView):
     context_object_name = 'all_posts'
 
 
+# Impleting functions for Single Post Page
 class PostDetailView(View):
     def is_marked_post(self, request, post_id):
         marked_posts = request.session.get('marked_posts')
@@ -75,7 +76,7 @@ class PostDetailView(View):
         context['comment_form'] = CommentForm()
         return context
 
-
+# Impleting functions for Marked Posts Page
 class ReadLaterView(View):
     def get(self, request):
         marked_posts = request.session.get("marked_posts")

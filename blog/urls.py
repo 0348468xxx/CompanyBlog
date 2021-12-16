@@ -3,12 +3,11 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.StartingPageView.as_view(), name='starting-page'),
-    path('posts', views.AllPostView.as_view(), name='posts-page'),
-    path('posts/<slug:slug>', views.PostDetailView.as_view(),
-         name='post-detail-page'),  # /posts/my-first-post
-    path("read-later", views.ReadLaterView.as_view(), name="read-later")
-    # path('posts/login'),
+    path('', views.StartingPageView.as_view(), name='starting-page'),       # Redirect to the Homepage
+    path('posts', views.AllPostView.as_view(), name='posts-page'),          # Redirect to the All Posts Page
+    path('posts/<slug:slug>', views.PostDetailView.as_view(),               # Redirect to the Single Post Page  
+         name='post-detail-page'),  
+    path("read-later", views.ReadLaterView.as_view(), name="read-later")    # Redirect to the Marked Post Page
 ]
 
 

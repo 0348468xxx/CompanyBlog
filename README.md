@@ -8,7 +8,7 @@ This blog will be directed to IFI Solution, Top 10 IT enterprises in Vietnam 202
 ### 2. Delivarables
 Besides Project Guideline and Project Code, some documents relating to the project are listed below:
 - Database Design: https://drive.google.com/file/d/1YxtaPHvSEkEnUwldlODPoC0WE4KsfmOv/view?usp=sharing
-- Test Cases:
+- Test Cases: https://drive.google.com/drive/folders/1xF0JyceIbiQHF_KkqiGLhRmj1lEmqYtm?usp=sharing
 
 ### 3. Project Guildeline Details
 This section helps the user/instructor understand the process of running the project code. Please read and follow instructions strictly!

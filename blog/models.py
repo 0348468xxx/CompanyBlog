@@ -1,8 +1,9 @@
+"""
+Blog Models is designed on the basis of this document: https://drive.google.com/file/d/1YxtaPHvSEkEnUwldlODPoC0WE4KsfmOv/view?usp=sharing
+"""
+
 from django.db import models
 from django.core.validators import MinLengthValidator
-
-# Create your models here.
-
 
 class Tag(models.Model):
     caption = models.CharField(max_length=50)
