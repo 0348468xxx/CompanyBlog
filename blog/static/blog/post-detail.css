@@ -13,7 +13,7 @@ body {
     width: 90%;
     max-width: 90rem;
     border-radius: 16px;
-    background-color: #5706c0;
+    background-color: #6c5ce7;
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     height: 22rem;
@@ -22,7 +22,7 @@ body {
   #summary h2 {
     color: white;
     font-size: 4.5rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 1.25rem;
   }
   
   #summary article {

@@ -49,6 +49,7 @@
     </main>
 
     <section id="comments">
+        <h2>Previous Comments</h2>
         <ul>
             {% for comment in comments %}
                 <li>
@@ -59,7 +60,7 @@
     </section>
 
     <section id="comment-form">
-        <h2>Your Comment</h2>
+        {% comment %} <h2>Your Comment</h2> {% endcomment %}
         <form action="{% url 'post-detail-page' post.slug %}" method="POST">
             {% csrf_token %}
             {% for form_field in comment_form %}
