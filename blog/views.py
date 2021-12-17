@@ -25,6 +25,14 @@ class AllPostView(ListView):
     model = Post
     ordering = ['-date']
     context_object_name = 'all_posts'
+    queryset = Post.objects.filter(title__icontains='IFI')
+
+    # def get_queryset(self):
+    #     search = self.kwargs.get('search_query', None)
+    #     object_list = self.model.objects.all()
+    #     if search:
+    #         object_list = object_list.filter(title__icontains=search)
+    #     return object_list
 
 
 # Impleting functions for Single Post Page
