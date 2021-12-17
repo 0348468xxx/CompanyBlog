@@ -16,11 +16,10 @@
 {% block content %}
     <section id="all-posts">
         <h2>My Collected Posts</h2>
-        <form class="form" method="GET">
+        <form class="form" action="{% url 'posts-page' %}" method="GET">
             <div class="form-group">
                 <label for="formInput#search"></label>
                 <input type="text" class="form-control" id="formInput#search" name="search_query" placeholder="Search your desired posts here!">
-                <input class="button" type='submit' value="Search Profile">
             </div>
         </form>
 

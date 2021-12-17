@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, request
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views import View
+from django.db.models import Q
 from .models import Post
 from .forms import CommentForm
 
@@ -25,14 +26,17 @@ class AllPostView(ListView):
     model = Post
     ordering = ['-date']
     context_object_name = 'all_posts'
-    queryset = Post.objects.filter(title__icontains='IFI')
+    # queryset = Post.objects.filter(title__icontains='IFI') # Basic Filtering
 
-    # def get_queryset(self):
-    #     search = self.kwargs.get('search_query', None)
-    #     object_list = self.model.objects.all()
-    #     if search:
-    #         object_list = object_list.filter(title__icontains=search)
-    #     return object_list
+    def get_queryset(self):
+        search_query = self.request.GET.get('search_query')
+        object_list = self.model.objects.all()
+        if search_query: 
+            object_list = object_list.filter(
+                Q(title__icontains=search_query) | Q(content__icontains=search_query) | Q(excerpt__icontains=search_query))
+        return object_list
+
+        # return Post.objects.filter(title__icontains='IFI')
 
 
 # Impleting functions for Single Post Page
