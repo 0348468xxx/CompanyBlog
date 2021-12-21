@@ -9,7 +9,7 @@ DEFAULT_CONFIG = getattr(
     {
         "theme": "silver",
         "height": 500,
-        "menubar": False,
+        "menubar": "file edit insert view format table tools help",
         "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,"
         "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
         "code,help,wordcount",
@@ -18,16 +18,8 @@ DEFAULT_CONFIG = getattr(
         "alignright alignjustify | bullist numlist outdent indent | "
         "removeformat | help",
         "image_caption": True,
-        "menubar": 'insert',
         "selector": 'textarea',
-        "image_title": True,
-        "automatic_uploads": True,
-        "file_picker_types": 'image',
-        "file_picker_callback": 'tinymce.file_picker_callback',
-        "images_upload_handler": 'tinymce.images_upload_handler',
-        "images_upload_url": 'tinymce/upload_image/',
-        "images_upload_base_path": 'media/',
-        "images_upload_credentials": True,
+        "images_upload_url": '/upload_image/'
     },
 )
 
