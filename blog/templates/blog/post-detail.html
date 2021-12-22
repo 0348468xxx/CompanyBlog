@@ -53,25 +53,29 @@
         <ul>
             {% for comment in comments %}
                 <li>
-                    <p> {{ comment.text|linebreaks }}</p>
+                    <p> {{ comment.text|safe }}</p>
                 </li>
             {% endfor %}
         </ul>
     </section>
 
     <section id="comment-form">
-        {% comment %} <h2>Your Comment</h2> {% endcomment %}
-        <form action="{% url 'post-detail-page' post.slug %}" method="POST">
+        <form action="{% url 'post-detail-page' post.slug %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {% for form_field in comment_form %}
-                <div class="form-control {% if form_field.errors %}invalid{% endif %}">
+            {% for form_field in comment_form %} 
+                 <div class="form-control {% if form_field.errors %}invalid{% endif %}">
                     {{ form_field.label_tag }}
                     {{ form_field }}
                     {{ form_field.errors }}
-                </div>
-            {% endfor %}
-            <button>Save Comment</button>
-        </form>
+                </div>  
+            <button>Submit</button>
+            {% endfor %} 
+            
+        </form> 
     </section>
 
+
+
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock  %}

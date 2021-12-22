@@ -6,6 +6,7 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField 
 
 
 
@@ -34,7 +35,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to="posts", null=True)
     date = models.DateTimeField(auto_now=True)
     slug = models.SlugField(unique=True, db_index=True)
-    content = RichTextField(blank=True, null=True)
+    content = RichTextUploadingField()
     author = models.ForeignKey(
         Author, on_delete=models.SET_NULL, related_name="posts", null=True)
     tags = models.ManyToManyField(Tag)
@@ -53,7 +54,7 @@ class Post(models.Model):
 class Comment(models.Model):
     # user_name = models.CharField(max_length=120)
     # user_emai = models.CharField()
-    text = models.TextField(max_length=400)
+    text = RichTextField()
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="comments")
 
