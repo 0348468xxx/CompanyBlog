@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$#3x9b%j_#x&%zpvjj0*mbb)dg(t3p#o)i!0+hvjfznobzbap#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  
 
 
 # Application definition
@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'login',
-    'tinymce',
     'ckeditor',
     'ckeditor_uploader',
+    'django_social_share'
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"

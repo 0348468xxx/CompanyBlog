@@ -171,3 +171,26 @@ body {
   #comment li:last-of-type {
     color: #464646;
   }
+
+.social-media {
+  display: flex;
+  justify-content: right;
+  margin-top: 0.5rem;
+}
+
+.social-media .facebook-this, .social-media .tweet-this
+,.social-media .mail-this {
+  margin-right: 0.5rem;
+}
+
+.social-media .fa-facebook:hover {
+  color: #120E43;
+}
+
+.social-media .fa-twitter:hover {
+  color: #1B98F5;
+}
+
+.social-media .fa-envelope:hover {
+  color: #DDD101;
+}

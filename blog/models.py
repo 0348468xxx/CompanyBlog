@@ -4,7 +4,6 @@ Blog Models is designed on the basis of this document: https://drive.google.com/
 
 from django.db import models
 from django.core.validators import MinLengthValidator
-from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField 
 
