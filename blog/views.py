@@ -1,11 +1,11 @@
 from django.db.models import query
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponseRedirect, request
-from django.urls import reverse
-from django.views.generic import ListView, DetailView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, DetailView, DeleteView
 from django.views import View
 from django.db.models import Q
-from .models import Post
+from .models import Comment, Post
 from .forms import CommentForm
 
 # Impleting functions for Homepage 
@@ -120,3 +120,21 @@ class ReadLaterView(View):
         request.session["marked_posts"] = marked_posts
 
         return HttpResponseRedirect("/")
+
+
+# def deleteComment(request, pk):
+#     # post = Post.objects.get(slug=slug)
+#     comment = Comment.objects.get(id=pk)
+#     if request.method == 'POST':
+#         comment.delete()
+#         return redirect('post-detail-page', id=pk)
+#     context = {'object': comment}
+#     return render(request, 'blog/delete-comment.html', context)
+
+class DeleteComment(DeleteView):
+    model = Comment
+    template_name = "blog/delete-comment.html"
+    success_url = reverse_lazy('posts-page')
+
+
+    

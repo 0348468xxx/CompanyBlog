@@ -194,3 +194,9 @@ body {
 .social-media .fa-envelope:hover {
   color: #DDD101;
 }
+
+.user-comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

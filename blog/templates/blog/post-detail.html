@@ -59,7 +59,10 @@
         <ul>
             {% for comment in comments %}
                 <li>
-                    <p> {{ comment.text|safe }}</p>
+                    <div class="user-comment">
+                        <p> {{ comment.text|safe }}</p>
+                        <a href="{% url 'delete-comment' comment.id %}"><i class="fas fa-times"></i></a>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
