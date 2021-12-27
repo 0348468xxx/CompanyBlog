@@ -136,5 +136,9 @@ class DeleteComment(DeleteView):
     template_name = "blog/delete-comment.html"
     success_url = reverse_lazy('posts-page')
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     post_slug = kwargs['slug']
+    #     selected_post = Post.objects.get(pk=post_slug)
 
     
