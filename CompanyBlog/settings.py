@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'login',
     'ckeditor',
     'ckeditor_uploader',
-    'django_social_share'
+    'django_social_share',
+    'crispy_forms'
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"

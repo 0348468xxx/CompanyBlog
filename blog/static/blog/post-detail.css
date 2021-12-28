@@ -200,3 +200,7 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.child-comment {
+  margin-left: 1.5rem;
+}

@@ -4,6 +4,7 @@ Blog Models is designed on the basis of this document: https://drive.google.com/
 
 from django.db import models
 from django.core.validators import MinLengthValidator
+from django.db.models.deletion import CASCADE
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField 
 
@@ -54,8 +55,25 @@ class Comment(models.Model):
     # user_name = models.CharField(max_length=120)
     # user_emai = models.CharField()
     text = RichTextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="comments")
+    parent = models.ForeignKey("self", null=True, blank=True,
+     on_delete=models.CASCADE, related_name='+')
+
+    class Meta:
+        ordering = ['-timestamp']
+
 
     def __str__(self):
         return self.text
+
+    @property
+    def children(self):
+        return Comment.objects.filter(parent=self).order_by('timestamp').all()
+
+    @property
+    def is_parent(self):
+        if self.parent is not None:
+            return False
+        return True

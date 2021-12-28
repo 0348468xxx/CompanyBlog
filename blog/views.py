@@ -65,6 +65,17 @@ class PostDetailView(View):
     def post(self, request, slug):
         comment_form = CommentForm(request.POST)
         post = Post.objects.get(slug=slug)
+        # parent_obj = None
+
+        # try:
+        #     parent_id = request.POST.get("parent_id")
+        # except:
+        #     parent_id = None
+
+        # if parent_id:
+        #     parent_qs = Comment.objects.filter( id=parent_id)
+        #     if parent_qs.exists() and parent_qs.count() == 1:
+        #         parent_obj = parent_qs.first()
 
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -79,6 +90,7 @@ class PostDetailView(View):
             "comment_form": CommentForm(),
             "comments": post.comments.all().order_by("-id"),
             "saved_for_later": self.is_marked_post(request, post.id)
+            # "parent": parent_obj
         }
         return render(request, "blog/post-detail.html", context)
 
@@ -87,6 +99,23 @@ class PostDetailView(View):
         context['post_tags'] = self.object.tags.all()
         context['comment_form'] = CommentForm()
         return context
+
+class CommentReplyView(View):
+    def post(self, request, slug, pk):
+        post = Post.objects.get(slug=slug)
+        parent_comment = Comment.objects.get(pk=pk)
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.parent = parent_comment
+            new_comment.save()
+    
+        return redirect('post-detail-page', slug=slug)
+        
+
+
 
 # Impleting functions for Marked Posts Page
 class ReadLaterView(View):
@@ -122,23 +151,13 @@ class ReadLaterView(View):
         return HttpResponseRedirect("/")
 
 
-# def deleteComment(request, pk):
-#     # post = Post.objects.get(slug=slug)
-#     comment = Comment.objects.get(id=pk)
-#     if request.method == 'POST':
-#         comment.delete()
-#         return redirect('post-detail-page', id=pk)
-#     context = {'object': comment}
-#     return render(request, 'blog/delete-comment.html', context)
+
 
 class DeleteComment(DeleteView):
     model = Comment
     template_name = "blog/delete-comment.html"
-    success_url = reverse_lazy('posts-page')
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     post_slug = kwargs['slug']
-    #     selected_post = Post.objects.get(pk=post_slug)
+    def get_success_url(self):
+         return reverse('post-detail-page', args=(self.kwargs['slug'],))
+        
 
     
