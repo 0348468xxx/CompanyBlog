@@ -43,14 +43,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    class Media:
-        js = [
-            'tinymce/jquery.tinymce.min.js',
-            'tinymce/tinymce.min.js',
-            'tinymce/js/textareas.js'
-        ]
-
-
 class Comment(models.Model):
     # user_name = models.CharField(max_length=120)
     # user_emai = models.CharField()
@@ -59,7 +51,7 @@ class Comment(models.Model):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="comments")
     parent = models.ForeignKey("self", null=True, blank=True,
-     on_delete=models.CASCADE, related_name='+')
+        on_delete=models.CASCADE, related_name='+')
 
     class Meta:
         ordering = ['-timestamp']

@@ -7,8 +7,27 @@ from django.views import View
 from django.db.models import Q
 from .models import Comment, Post
 from .forms import CommentForm
+from django.contrib.auth.decorators import login_required
+
+# login require
+from django.utils.decorators import method_decorator
+
+def class_view_decorator(function_decorator):
+    """Convert a function based decorator into a class based decorator usable
+    on class based Views.
+
+    Can't subclass the `View` as it breaks inheritance (super in particular),
+    so we monkey-patch instead.
+    """
+
+    def simple_decorator(View):
+        View.dispatch = method_decorator(function_decorator)(View.dispatch)
+        return View
+
+    return simple_decorator
 
 # Impleting functions for Homepage 
+@class_view_decorator(login_required)
 class StartingPageView(ListView):
     template_name = 'blog/index.html'
     model = Post
@@ -21,6 +40,7 @@ class StartingPageView(ListView):
         return data
 
 # Impleting functions for All Posts Page
+@class_view_decorator(login_required)
 class AllPostView(ListView):
     template_name = 'blog/all-posts.html'
     model = Post
@@ -40,6 +60,7 @@ class AllPostView(ListView):
 
 
 # Impleting functions for Single Post Page
+@class_view_decorator(login_required)
 class PostDetailView(View):
     def is_marked_post(self, request, post_id):
         marked_posts = request.session.get('marked_posts')
@@ -100,6 +121,7 @@ class PostDetailView(View):
         context['comment_form'] = CommentForm()
         return context
 
+@class_view_decorator(login_required)
 class CommentReplyView(View):
     def post(self, request, slug, pk):
         post = Post.objects.get(slug=slug)
@@ -118,6 +140,7 @@ class CommentReplyView(View):
 
 
 # Impleting functions for Marked Posts Page
+@class_view_decorator(login_required)
 class ReadLaterView(View):
     def get(self, request):
         marked_posts = request.session.get("marked_posts")
@@ -151,8 +174,7 @@ class ReadLaterView(View):
         return HttpResponseRedirect("/")
 
 
-
-
+@class_view_decorator(login_required)
 class DeleteComment(DeleteView):
     model = Comment
     template_name = "blog/delete-comment.html"

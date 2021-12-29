@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'login',
     'ckeditor',
     'ckeditor_uploader',
     'django_social_share',
-    'crispy_forms'
+    'crispy_forms',
+    'users.apps.UsersConfig',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -122,7 +122,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '1801040210@s.hanu.edu.vn'
+EMAIL_HOST_PASSWORD = 'uxusvexpbssjexuk'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
