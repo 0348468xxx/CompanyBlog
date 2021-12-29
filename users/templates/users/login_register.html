@@ -1,5 +1,7 @@
+{% extends 'base.html' %}
 {% load static %} 
-{%block css_files %}
+
+{% block css_files %}
 <link rel="stylesheet" href="{% static 'login_register/login_register.css' %}" />
 
 <link
@@ -11,9 +13,10 @@
   href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 />
 {% endblock %} 
-{% block content %} 
-{% if page == 'register' %}
 
+{% block content %} 
+
+{% if page == 'register' %}
 <div class="auth">
   <div class="card">
     <div class="auth__header text-center">
@@ -22,15 +25,23 @@
     </div>
 
     <form method="POST" action="{% url 'register' %}" class="form auth__form">
-      {% csrf_token %} {% for field in form %}
-      <div class="form__field">
-        <label for="formInput#text">{{field.label}}</label>
-        {{field}} {% for error in field.errors %}
-        <p style="color: red">{{error}}</p>
-        {% endfor %}
-      </div>
+      {% csrf_token %} 
+      
 
-      {% endfor %}
+        {% for field in form %}
+        <div class="form__field">
+            <label for="formInput#text">{{field.label}}</label>
+            {{field}} 
+            
+            {% for error in field.errors %}
+            <p style="color: red;">{{error}}</p>
+            {% endfor %}
+
+        </div>
+
+        {% endfor %}
+  
+      
 
       <div class="auth__actions">
         <input class="button-register" type="submit" value="Register" />
@@ -45,9 +56,23 @@
 
 {% else %}
 
-<div class="login-form">
+{% comment %} <div class="login-form">
   <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
+    {% for field in form %}
+        <div class="form__field">
+            <label for="formInput#text">{{field.label}}</label>
+            {{field}} 
+            
+            {% for error in field.errors %}
+            <p style="color: red;">{{error}}</p>
+            {% endfor %}
+
+        </div>
+
+        {% endfor %} {% endcomment %}
+
+
     <h2 class="text-center">Sign in</h2>
     <div class="form-group">
       <div class="input-group">
@@ -92,6 +117,8 @@
       >
     </div>
   </form>
+
+  
   <p class="text-center text-muted small">
     Don't have an account? <a href="{% url 'register' %}">Register here!</a>
   </p>
@@ -101,4 +128,6 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-{% endif %} {% endblock content %}
+{% endif %} 
+
+{% endblock content %}
