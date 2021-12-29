@@ -68,12 +68,12 @@
                 <div class="user-comment">
                     <p> {{ comment.text|safe }}</p>
                     {% comment %} <a href="#"><i class="far fa-edit"></i></a>  {% endcomment %}
-                    <a href="{% url 'delete-comment' post.slug comment.pk %}"><i class="fas fa-times"></i></a>
+                    <a href="{% url 'delete-comment' post.slug comment.pk %}"><i class="fas fa-times" style="color: #EB4D4B;"></i></a>
                 </div>
             </li>
 
             <div>
-                <button class="remove-default-btn">
+                <button class="reply-icon">
                     <i class="far fa-comment-dots" onclick="commentReplyToggle('{{ comment.pk }}')"></i>
                 </button>
             </div>

@@ -9,19 +9,19 @@ body {
   
   #summary {
     margin: 8rem auto 3rem auto;
-    padding: 2rem;
+    padding: 5rem;
     width: 90%;
     max-width: 90rem;
     border-radius: 16px;
     background-color: #6c5ce7;
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    height: 22rem;
+    height: 24rem;
   }
   
   #summary h2 {
     color: white;
-    font-size: 4.5rem;
+    font-size: 4.0rem;
     margin-bottom: 1.25rem;
   }
   
@@ -203,4 +203,11 @@ body {
 
 .child-comment {
   margin-left: 1.5rem;
+}
+
+.reply-icon {
+  background: #1B98F5;
+  color: #fff;
+  border-radius: 50%;
+  border: none;
 }
