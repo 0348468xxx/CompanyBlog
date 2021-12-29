@@ -16,7 +16,7 @@ This section helps the user/instructor understand the process of running the pro
 In the project, "ss1-final-project" is the major branch, so you can do following way to clone the code from this branch:
 `git clone -b ss1-final-project https://github.com/hoa2000kxpt/CompanyBlog.git`
 2. Run the project:<br/> 
-Install django-js-asset python with following command: `pip install django-js-asset`
+Install django-js-asset python with following command: `pip install django-js-asset`.
 You can start the project by typing `python manage.py runserver` in the command prompt.
 
 ***Note: Please make sure that you installed Python and Django in your computer before.***
