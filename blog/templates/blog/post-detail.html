@@ -96,8 +96,8 @@
 
             {% for child_comment in comment.children %}
             <div class="child-comment">
-                <span style="font-style: italic;">{{child_comment.timestamp}}</span>
                 <a href="mailto:{{ comment.user.email }}" style="text-decoration: none;">{{ child_comment.author }}</a>
+                <span style="font-style: italic;">{{child_comment.timestamp}}</span>
                 <p>{{child_comment.text|safe}}</p>
             </div>
             
