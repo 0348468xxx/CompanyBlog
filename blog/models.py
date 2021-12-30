@@ -7,7 +7,7 @@ from django.core.validators import MinLengthValidator
 from django.db.models.deletion import CASCADE
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField 
-
+from django.contrib.auth.models import User
 
 
 class Tag(models.Model):
@@ -46,6 +46,7 @@ class Post(models.Model):
 class Comment(models.Model):
     # user_name = models.CharField(max_length=120)
     # user_emai = models.CharField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     text = RichTextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(

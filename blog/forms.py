@@ -5,7 +5,7 @@ from .models import Comment
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        exclude = ["post", "parent"]
+        exclude = ["post", "parent", "author"]
         labels = {
             # "title": "Title",
             "text": "Your comment"

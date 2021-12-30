@@ -8,6 +8,7 @@ from django.db.models import Q
 from .models import Comment, Post
 from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 
 # login require
 from django.utils.decorators import method_decorator
@@ -61,7 +62,7 @@ class AllPostView(ListView):
 
 # Impleting functions for Single Post Page
 @class_view_decorator(login_required)
-class PostDetailView(View):
+class PostDetailView(View, LoginRequiredMixin):
     def is_marked_post(self, request, post_id):
         marked_posts = request.session.get('marked_posts')
         if marked_posts is not None:
@@ -85,22 +86,12 @@ class PostDetailView(View):
 
     def post(self, request, slug):
         comment_form = CommentForm(request.POST)
-        post = Post.objects.get(slug=slug)
-        # parent_obj = None
-
-        # try:
-        #     parent_id = request.POST.get("parent_id")
-        # except:
-        #     parent_id = None
-
-        # if parent_id:
-        #     parent_qs = Comment.objects.filter( id=parent_id)
-        #     if parent_qs.exists() and parent_qs.count() == 1:
-        #         parent_obj = parent_qs.first()
+        post = Post.objects.get(slug=slug)   
 
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.post = post
+            comment.author = request.user
             comment.save()
 
             return HttpResponseRedirect(reverse("post-detail-page", args=[slug]))
@@ -111,7 +102,6 @@ class PostDetailView(View):
             "comment_form": CommentForm(),
             "comments": post.comments.all().order_by("-id"),
             "saved_for_later": self.is_marked_post(request, post.id)
-            # "parent": parent_obj
         }
         return render(request, "blog/post-detail.html", context)
 
@@ -132,6 +122,7 @@ class CommentReplyView(View):
             new_comment = form.save(commit=False)
             new_comment.post = post
             new_comment.parent = parent_comment
+            new_comment.author = request.user
             new_comment.save()
     
         return redirect('post-detail-page', slug=slug)

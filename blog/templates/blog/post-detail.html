@@ -63,13 +63,19 @@
             {% if comment.is_parent %}
             <li>
                 <strong> <i>
-                    <p>{{  comment.timestamp|timesince }}</p>
+                    <a href="mailto:{{ comment.user.email }}" style="text-decoration: none;">{{ comment.author }}</a>
+                    <p>{{ comment.timestamp }}</p>
                 </i> </strong>
+
+    
                 <div class="user-comment">
                     <p> {{ comment.text|safe }}</p>
-                    {% comment %} <a href="#"><i class="far fa-edit"></i></a>  {% endcomment %}
-                    <a href="{% url 'delete-comment' post.slug comment.pk %}"><i class="fas fa-times" style="color: #EB4D4B;"></i></a>
+
+                    {% if request.user == comment.author %}
+                        <a href="{% url 'delete-comment' post.slug comment.pk %}"><i class="fas fa-times" style="color: #EB4D4B;"></i></a>
+                    {% endif %}
                 </div>
+    
             </li>
 
             <div>
@@ -90,8 +96,9 @@
 
             {% for child_comment in comment.children %}
             <div class="child-comment">
-                {{child_comment.timestamp}}
-                {{child_comment.text}}
+                <span style="font-style: italic;">{{child_comment.timestamp}}</span>
+                <a href="mailto:{{ comment.user.email }}" style="text-decoration: none;">{{ child_comment.author }}</a>
+                <p>{{child_comment.text|safe}}</p>
             </div>
             
             {% endfor %}
