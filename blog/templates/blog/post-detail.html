@@ -87,7 +87,7 @@
             <div class="d-none" id="{{ comment.pk }}">
                 <form action="{% url 'comment-reply' post.slug comment.pk %}" method="POST">
                     {% csrf_token %}       
-                    {{ comment_form }}
+                    {{ comment_form|safe }}
                     <input type="hidden" name="parent_id" value='{{ comment.id }}'>
                     <button class="btn btn-success">Reply</button>
                 </form> 
@@ -115,7 +115,7 @@
                     {{ form_field.label_tag }}
                     {{ form_field }}
                     {{ form_field.errors }}
-                    {{ form.media }}
+                
                 </div>  
             <button>Submit</button>
             {% endfor %} 

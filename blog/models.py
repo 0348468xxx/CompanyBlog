@@ -61,6 +61,8 @@ class Comment(models.Model):
     def __str__(self):
         return self.text
 
+
+
     @property
     def children(self):
         return Comment.objects.filter(parent=self).order_by('timestamp').all()
