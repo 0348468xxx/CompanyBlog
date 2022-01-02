@@ -85,11 +85,11 @@
             </div>
             
             <div class="d-none" id="{{ comment.pk }}">
-                <form action="{% url 'comment-reply' post.slug comment.pk %}" method="POST">
+                <form action="{% url 'comment-reply' post.slug comment.pk %}" method="POST" style="display: grid; justify-content: start;">
                     {% csrf_token %}       
                     {{ comment_form }}
                     <input type="hidden" name="parent_id" value='{{ comment.id }}'>
-                    <button>Reply</button>
+                    <button class="btn btn-success">Reply</button>
                 </form> 
                 
             </div>
