@@ -168,6 +168,7 @@ class CommentReplyView(View):
 class ReadLaterView(View):
     def get(self, request):
         marked_posts = request.session.get("marked_posts")
+        # marked_posts = [];
         context = {}
 
         if marked_posts is None or len(marked_posts) == 0:
@@ -181,6 +182,7 @@ class ReadLaterView(View):
 
     def post(self, request):
         marked_posts = request.session.get("marked_posts")
+        print(marked_posts)
 
         if marked_posts is None:
             marked_posts = []
