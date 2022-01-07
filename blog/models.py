@@ -45,7 +45,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     # user_name = models.CharField(max_length=120)
-    # user_emai = models.CharField()
+    # user_emai = models.CharField(max_length=120)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     text = RichTextField()
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -53,6 +53,8 @@ class Comment(models.Model):
         Post, on_delete=models.CASCADE, related_name="comments")
     parent = models.ForeignKey("self", null=True, blank=True,
         on_delete=models.CASCADE, related_name='+')
+    likes = models.ManyToManyField(User, blank=True, related_name='comment_likes')
+    dislikes = models.ManyToManyField(User, blank=True, related_name='comment_dislikes')
 
     class Meta:
         ordering = ['-timestamp']

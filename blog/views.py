@@ -27,6 +27,28 @@ def class_view_decorator(function_decorator):
 
     return simple_decorator
 
+
+# def starting_page_view(request):
+#     lastest_post = Post.objects.all().order_by("-date")[:3]
+#     return render(request, 'blog/index.html', { 
+#         "posts": lastest_post
+#     })
+
+# def posts(request):
+#     all_posts = Post.objects.all().order_by("-date")
+#     return render(request, "blog/all-posts.html", {
+#       "all_posts": all_posts
+#     })
+
+
+# def post_detail(request, slug):
+#     identified_post = get_object_or_404(Post, slug=slug)
+#     return render(request, "blog/post-detail.html", {
+#       "post": identified_post,
+#       "post_tags": identified_post.tags.all()
+#     })
+
+
 # Impleting functions for Homepage 
 @class_view_decorator(login_required)
 class StartingPageView(ListView):
@@ -55,9 +77,10 @@ class AllPostView(ListView):
         object_list = self.model.objects.all()
         if search_query: 
             object_list = object_list.filter(
+                # Using Q objects for complex lookups: |-or; &-and
+                # More info: https://docs.djangoproject.com/en/4.0/topics/db/queries/ 
                 Q(title__icontains=search_query) | Q(content__icontains=search_query) | Q(excerpt__icontains=search_query))
         return object_list
-
         # return Post.objects.filter(title__icontains='IFI')
 
 
@@ -90,6 +113,10 @@ class PostDetailView(View, LoginRequiredMixin):
         post = Post.objects.get(slug=slug)   
 
         if comment_form.is_valid():
+            # commit=False: The most common situation is to get the instance
+            # from form but only 'in memory', not in database. 
+            # Before save it you want to make some changes
+            # https://stackoverflow.com/questions/12848605/django-modelform-what-is-savecommit-false-used-for
             comment = comment_form.save(commit=False)
             comment.post = post
             comment.author = request.user
@@ -105,9 +132,14 @@ class PostDetailView(View, LoginRequiredMixin):
             "saved_for_later": self.is_marked_post(request, post.id)
         }
         return render(request, "blog/post-detail.html", context)
-
+    
+    # get_context_data will merge the context data of all parent classes
+    # with those of the current class
     def get_context_data(self, **kwargs):
+
+        # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the post tags
         context['post_tags'] = self.object.tags.all()
         context['comment_form'] = CommentForm()
         return context
@@ -172,6 +204,63 @@ class DeleteComment(DeleteView):
     template_name = "blog/delete-comment.html"
     def get_success_url(self):
          return reverse('post-detail-page', args=(self.kwargs['slug'],))
+
+class AddCommentLike(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(pk=pk)  
+        is_dislike = False 
+
+        for dislike in comment.dislikes.all():
+            if dislike == request.user:
+                is_dislike = True
+                break     
         
+        if is_dislike:
+            comment.dislikes.remove(request.user)
+
+        is_like = False
+
+        for like in comment.likes.all():
+            if like == request.user:
+                is_like = True
+                break 
+
+        if not is_like:
+            comment.likes.add(request.user)
+        
+        if is_like:
+            comment.likes.remove(request.user)
+
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
+
+class AddCommentDislike(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(pk=pk)  
+        is_dislike = False 
+
+        for like in comment.like.all():
+            if like == request.user:
+                is_like = True
+                break     
+        
+        if is_like:
+            comment.likes.remove(request.user)
+
+        is_dislike = False
+
+        for dislike in comment.dislike.all():
+            if dislike == request.user:
+                is_dislike = True
+                break 
+
+        if not is_dislike:
+            comment.dislikes.add(request.user)
+        
+        if is_dislike:
+            comment.dislikes.remove(request.user)
+
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
 
     
