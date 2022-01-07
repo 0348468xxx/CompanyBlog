@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'users.apps.UsersConfig',
+    'django_extensions'
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -153,3 +154,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     "127.0.0.1",
 #     # ...
 # ]
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
