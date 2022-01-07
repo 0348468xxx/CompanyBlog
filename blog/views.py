@@ -33,9 +33,10 @@ class StartingPageView(ListView):
     template_name = 'blog/index.html'
     model = Post
     ordering = ['-date']
-    context_object_name = 'posts'
+    context_object_name = 'posts'  # Designates the name of the variable to use in the context.
 
-    def get_queryset(self):
+    #Get the list of items for this view.In this case: 3 posts
+    def get_queryset(self): 
         queryset = super().get_queryset()
         data = queryset[:3]
         return data

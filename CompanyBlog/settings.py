@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'users.apps.UsersConfig',
-    'django_extensions'
+    'django_extensions',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
